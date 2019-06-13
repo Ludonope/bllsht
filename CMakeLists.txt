@@ -21,6 +21,28 @@ endif()
 SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS}")
 
 ##
+## Libraries
+##
+
+# Get modbus library files
+file(GLOB LIBMODBUSPP_SOURCES lib/modbuspp/*.cpp)
+set(LIBMODBUSPP libmodbuspp)
+add_library(${LIBMODBUSPP} STATIC ${LIBMODBUSPP_SOURCES})
+target_include_directories(${LIBMODBUSPP} PUBLIC "./lib/modbuspp")
+
+##
+## Internal Libraries
+##
+
+# Get egse library files
+file(GLOB LIBEGSE_SOURCES src/egse/*.cpp)
+set(LIBEGSE libegse)
+add_library(${LIBEGSE} STATIC ${LIBEGSE_SOURCES})
+target_include_directories(${LIBEGSE} PUBLIC "./src" "./lib")
+target_include_directories(${LIBEGSE} PUBLIC "./src/egse")
+target_link_libraries(${LIBEGSE} PUBLIC ${LIBMODBUSPP})
+
+##
 ## Binary
 ##
 
@@ -28,11 +50,8 @@ SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS}")
 file(GLOB BLLSHT_SOURCES src/bllsht/*.cpp)
 set(BLLSHT bllsht)
 add_executable(${BLLSHT} ${BLLSHT_SOURCES})
-target_include_directories(${BLLSHT} PUBLIC "./src")
-# target_link_libraries(${SPIDER_CLIENT} PUBLIC ${LIBNETWORK} ${LIBLOGGER} ${LIBLOADER} ${LIBMT} ${LIBMACADDR} ${OPENSSL_LIBRARIES})
-# if(UNIX AND NOT APPLE)
-# target_link_libraries(${SPIDER_CLIENT} PUBLIC -lpthread -ldl)
-# endif()
+target_include_directories(${BLLSHT} PUBLIC "./src" "./lib")
+target_link_libraries(${BLLSHT} PUBLIC ${LIBEGSE})
 
 ##
 ## Installation

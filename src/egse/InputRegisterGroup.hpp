@@ -14,7 +14,7 @@ public:
                      std::uint16_t size);
 
   // virtual std::vector<std::uint16_t> const &value();
-  virtual void updateData();
+  void updateData();
   std::vector<InputRegisterHolder> const &holders() const;
   // std::vector<>
   // virtual void onData(IReader::CallbackType callback);

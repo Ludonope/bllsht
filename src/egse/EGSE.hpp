@@ -19,7 +19,7 @@ public:
   // virtual void onData(CallbackType callback);
 
   virtual std::vector<IReader const *> readSensors() const;
-  void updateDate();
+  void updateData();
 
 protected:
   std::vector<egse::InputRegisterGroup> m_inputRegisterGroups;

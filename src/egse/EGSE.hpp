@@ -9,7 +9,7 @@
 #include <vector>
 
 namespace bllsht {
-class EGSE : public IEquipment {
+class EGSE final : public IEquipment {
 public:
   EGSE() = default;
   EGSE(std::string const &configFile);
@@ -17,6 +17,7 @@ public:
 
   void loadConfig(std::string const &configFile);
 
+  virtual std::string const& name() const { return "EGSE"; }
   virtual std::vector<IReader const *> readSensors() const;
   void updateData();
 

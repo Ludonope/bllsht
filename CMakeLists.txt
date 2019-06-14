@@ -40,7 +40,7 @@ set(LIBEGSE libegse)
 add_library(${LIBEGSE} STATIC ${LIBEGSE_SOURCES})
 target_include_directories(${LIBEGSE} PUBLIC "./src" "./lib")
 target_include_directories(${LIBEGSE} PUBLIC "./src/egse")
-target_link_libraries(${LIBEGSE} PUBLIC ${LIBMODBUSPP})
+target_link_libraries(${LIBEGSE} PRIVATE ${LIBMODBUSPP})
 
 ##
 ## Binary

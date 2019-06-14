@@ -2,6 +2,7 @@
 #include <chrono>
 #include <iostream>
 #include <thread>
+#include <iomanip>
 
 void start() {
   auto egse = bllsht::EGSE("sensors.json");
@@ -13,7 +14,7 @@ void start() {
     egse.updateData();
 
     for (auto const &s : sensors) {
-      std::cout << s->value() << std::endl;
+      std::cout << s->name() << ": " << s->value() << '\n';
     }
     std::cout << std::endl;
 

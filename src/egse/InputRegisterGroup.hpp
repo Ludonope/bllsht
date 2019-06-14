@@ -12,8 +12,6 @@
 namespace bllsht::egse {
 class InputRegisterGroup {
 public:
-  InputRegisterGroup(modbus &modbusClient, std::uint16_t address,
-                     std::uint16_t size);
   InputRegisterGroup(modbus &modbusClient, nlohmann::json &json);
   InputRegisterGroup(modbus &modbusClient, InputRegisterGroupConfig const &config);
 

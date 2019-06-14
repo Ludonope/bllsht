@@ -2,16 +2,6 @@
 
 namespace bllsht::egse {
 InputRegisterGroup::InputRegisterGroup(modbus &modbusClient,
-                                       std::uint16_t address,
-                                       std::uint16_t size)
-    : m_modbusClient(modbusClient), m_address(address), m_size(size),
-      m_values(size), m_holders() {
-  for (auto &val : m_values) {
-    m_holders.emplace_back(val);
-  }
-}
-
-InputRegisterGroup::InputRegisterGroup(modbus &modbusClient,
                                        nlohmann::json &json)
     : InputRegisterGroup(modbusClient, InputRegisterGroupConfig(json)) {}
 

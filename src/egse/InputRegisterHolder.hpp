@@ -6,15 +6,17 @@
 #include <cstdint>
 
 namespace bllsht::egse {
-class InputRegisterHolder : public IReader {
+class  InputRegisterHolder final : public IReader {
 public:
   InputRegisterHolder() = delete;
-  InputRegisterHolder(std::uint16_t &valueHolder);
-
   InputRegisterHolder(std::uint16_t &valueHolder,
                       InputRegisterHolderConfig const &config);
 
-  virtual std::uint16_t value() const;
+  virtual std::uint16_t value() const { return m_valueHolder; }
+  virtual std::string const &name() const { return m_name; }
+  virtual std::string const &type() const { return m_type; }
+  virtual double coef() const { return m_coef; }
+  virtual double offset() const { return m_offset; }
 
 private:
   std::string m_name;

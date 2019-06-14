@@ -1,23 +1,18 @@
-#ifndef SENSOR_IREADER_HPP
-#define SENSOR_IREADER_HPP
+#ifndef BLLSHT_BLLSHT_IREADER_HPP
+#define BLLSHT_BLLSHT_IREADER_HPP
 
+#include "IBasicSensor.hpp"
 #include <cstdint>
 #include <string>
 
 namespace bllsht {
-class IReader {
+  template<class T>
+class IReader : public IBasicSensor {
 public:
   virtual ~IReader() {}
 
-  // typedef void (*CallbackType)(std::uint16_t);
-
-  // virtual void onData(CallbackType callback) = 0;
-  virtual std::uint16_t value() const = 0;
-  virtual std::string const &name() const = 0;
-  virtual std::string const &type() const = 0;
-  virtual double coef() const = 0;
-  virtual double offset() const = 0;
+  virtual T read() const = 0;
 };
 } // namespace bllsht
 
-#endif // SENSOR_IREADER_HPP
+#endif // BLLSHT_BLLSHT_IREADER_HPP

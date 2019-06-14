@@ -2,17 +2,17 @@
 #define BLLSHT_EGSE_INPUTREGISTERHOLDER_HPP
 
 #include "InputRegisterHolderConfig.hpp"
-#include "bllsht/IReader.hpp"
+#include "bllsht/ICalibratedReader.hpp"
 #include <cstdint>
 
 namespace bllsht::egse {
-class  InputRegisterHolder final : public IReader {
+class InputRegisterHolder final : public ICalibratedReader<std::uint16_t> {
 public:
   InputRegisterHolder() = delete;
   InputRegisterHolder(std::uint16_t &valueHolder,
                       InputRegisterHolderConfig const &config);
 
-  virtual std::uint16_t value() const { return m_valueHolder; }
+  virtual std::uint16_t read() const { return m_valueHolder; }
   virtual std::string const &name() const { return m_name; }
   virtual std::string const &type() const { return m_type; }
   virtual double coef() const { return m_coef; }

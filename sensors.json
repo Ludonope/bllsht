@@ -122,49 +122,27 @@
     {
       "address": 64,
       "sensors": [
-        {
-          "name": "LOX Vent"
-        },
-        {
-          "name": "Fuel Vent"
-        },
-        {
-          "name": "Dome Vent"
-        },
-        {
-          "name": "Dome Reg"
-        },
-        {
-          "name": "MV Closed"
-        },
-        {
-          "name": "MV Open"
-        }
+        "LOX Vent",
+        "Fuel Vent",
+        "Dome Vent",
+        "Dome Reg",
+        "MV Closed",
+        "MV Open"
       ]
     },
     {
       "address": 80,
       "sensors": [
-        {
-          "name": "High Press"
-        },
-        {
-          "name": "High Press Vent"
-        },
-        {
-          "name": "Remote QD Sep"
-        },
-        {
-          "name": "GHe Fill"
-        }
+        "High Press",
+        "High Press Vent",
+        "Remote QD Sep",
+        "GHe Fill"
       ]
     },
     {
       "address": 86,
       "sensors": [
-        {
-          "name": "Igniter Power"
-        }
+        "Igniter Power"
       ]
     }
   ]

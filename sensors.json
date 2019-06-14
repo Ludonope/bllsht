@@ -1,0 +1,171 @@
+{
+  "input-registers": [
+    {
+      "address": 7,
+      "type": "pts",
+      "sensors": [
+        {
+          "name": "Source High Press",
+          "unit": "psig",
+          "coef": 0.04577637,
+          "offset": -1500
+        },
+        {
+          "name": "High Press",
+          "unit": "psi",
+          "coef": 0.1878510868,
+          "offset": -6800.25
+        },
+        {
+          "name": "Dome Reg",
+          "unit": "psig",
+          "coef": 0.03730624012,
+          "offset": -1347.68
+        },
+        {
+          "name": "Fuel Tank",
+          "unit": "psig",
+          "coef": 0.03725741196,
+          "offset": -1345.67
+        },
+        {
+          "name": "LOX Tank",
+          "unit": "psig",
+          "coef": 0.03725741196,
+          "offset": -1345.67
+        },
+        null,
+        null,
+        {
+          "name": "LOX Main Valve",
+          "unit": "?",
+          "coef": 0.0373916894,
+          "offset": -1349.79
+        },
+        {
+          "name": "Fuel Main Valve",
+          "unit": "?",
+          "coef": 0.0373916894,
+          "offset": -1349.79
+        }
+      ]
+    },
+    {
+      "address": 16,
+      "type": "lcs",
+      "sensors": [
+        {
+          "name": "LC1",
+          "type": "lcs",
+          "coef": 0.000004577637,
+          "offset": -0.15
+        },
+        {
+          "name": "LC2",
+          "type": "lcs",
+          "coef": 0.000004577637,
+          "offset": -0.15
+        },
+        {
+          "name": "LC3",
+          "type": "lcs",
+          "coef": 0.000004577637,
+          "offset": -0.15
+        }
+      ]
+    },
+    {
+      "address": 48,
+      "type": "tcs",
+      "sensors": [
+        {
+          "name": "LOX (bottom)",
+          "coef": 0.0076293945,
+          "offset": -100
+        },
+        {
+          "name": "LOX (middle)",
+          "coef": 0.0076293945,
+          "offset": -100
+        },
+        {
+          "name": "LOX (top)",
+          "coef": 0.0076293945,
+          "offset": -100
+        },
+        {
+          "name": "Fuel (bottom)",
+          "coef": 0.0076293945,
+          "offset": -100
+        },
+        {
+          "name": "Fuel (middle)",
+          "coef": 0.0076293945,
+          "offset": -100
+        },
+        {
+          "name": "Fuel (top)",
+          "coef": 0.0076293945,
+          "offset": -100
+        },
+        null,
+        null,
+        {
+          "name": "Igniter",
+          "coef": 0.0209,
+          "offset": 0
+        }
+      ]
+    }
+  ],
+  "coils": [
+    {
+      "address": 64,
+      "sensors": [
+        {
+          "name": "LOX Vent"
+        },
+        {
+          "name": "Fuel Vent"
+        },
+        {
+          "name": "Dome Vent"
+        },
+        {
+          "name": "Dome Reg"
+        },
+        {
+          "name": "MV Closed"
+        },
+        {
+          "name": "MV Open"
+        }
+      ]
+    },
+    {
+      "address": 80,
+      "sensors": [
+        {
+          "name": "High Press"
+        },
+        {
+          "name": "High Press Vent"
+        },
+        {
+          "name": "Remote QD Sep"
+        },
+        {
+          "name": "GHe Fill"
+        }
+      ]
+    },
+    {
+      "address": 86,
+      "sensors": [
+        {
+          "name": "Igniter Power"
+        }
+      ]
+    }
+  ]
+}

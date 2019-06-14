@@ -15,8 +15,7 @@ public:
   EGSE(std::string const &configFile);
   ~EGSE();
 
-  // typedef void (*CallbackType)(std::uint16_t);
-  // virtual void onData(CallbackType callback);
+  void loadConfig(std::string const &configFile);
 
   virtual std::vector<IReader const *> readSensors() const;
   void updateData();

@@ -4,12 +4,20 @@
 #include <thread>
 
 void start() {
-  auto egse = bllsht::EGSE("config.yaml");
+  auto egse = bllsht::EGSE("sensors.json");
   bool quit = false;
+
+  auto sensors = egse.readSensors();
 
   while (!quit) {
     egse.updateData();
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+    for (auto const &s : sensors) {
+      std::cout << s->value() << std::endl;
+    }
+    std::cout << std::endl;
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   }
 }
 

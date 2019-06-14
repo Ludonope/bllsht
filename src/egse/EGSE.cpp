@@ -42,14 +42,20 @@ void EGSE::loadConfig(std::string const &configFile) {
   }
 }
 
-std::vector<IReader const *> EGSE::readSensors() const {
-  std::vector<IReader const *> sensors;
+std::vector<ICalibratedReader<std::uint16_t> const *> EGSE::readSensors() const {
+  std::vector<ICalibratedReader<std::uint16_t> const *> sensors;
 
   for (auto const &holder : m_inputRegisterHolders) {
     sensors.push_back(&holder);
   }
 
   return sensors;
+}
+void EGSE::broadcastData(IBroadcaster &broadcaster) const {
+  for (auto const &holder : m_inputRegisterHolders) {
+    double value = holder.read() * holder.coef() + holder.offset();
+    broadcaster.broadcast("EGSE", holder.type(), value);
+  }
 }
 
 void EGSE::updateData() {

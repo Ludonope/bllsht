@@ -11,17 +11,18 @@
 namespace bllsht {
 class EGSE final : public IEquipment {
 public:
-  EGSE() = default;
   EGSE(std::string const &configFile);
   ~EGSE();
 
   void loadConfig(std::string const &configFile);
 
-  virtual std::string const& name() const { return "EGSE"; }
-  virtual std::vector<IReader const *> readSensors() const;
+  virtual std::string const& name() const { return m_name; }
+  virtual std::vector<ICalibratedReader<std::uint16_t> const *> readSensors() const;
+  virtual void broadcastData(IBroadcaster &broadcaster) const;
   void updateData();
 
 protected:
+  const std::string m_name = "EGSE";
   std::vector<egse::InputRegisterGroup> m_inputRegisterGroups;
   std::vector<egse::InputRegisterHolder> m_inputRegisterHolders;
   modbus m_modbusClient;

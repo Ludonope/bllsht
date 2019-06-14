@@ -1,4 +1,5 @@
 #include "egse/EGSE.hpp"
+#include "broadcast/GRPCBroadcaster.hpp"
 #include <chrono>
 #include <iostream>
 #include <thread>
@@ -7,17 +8,11 @@
 void start() {
   auto egse = bllsht::EGSE("sensors.json");
   bool quit = false;
-
-  auto sensors = egse.readSensors();
+  auto broadcaster = bllsht::broadcast::GRPCBroadcaster();
 
   while (!quit) {
     egse.updateData();
-
-    for (auto const &s : sensors) {
-      std::cout << s->name() << ": " << s->value() << '\n';
-    }
-    std::cout << std::endl;
-
+    egse.broadcastData(broadcaster);
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   }
 }

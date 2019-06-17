@@ -8,10 +8,15 @@ project(bllsht)
 set(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_CXX_COMPILER clang++)
 
-# Configure build directory
+# Configure bin directory
 set(OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/bin)
 file(MAKE_DIRECTORY ${OUTPUT_DIRECTORY})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIRECTORY})
+
+# Configure build directories
+set(BUILD_DIRECTORY ${CMAKE_HOME_DIRECTORY}/build)
+file(MAKE_DIRECTORY ${BUILD_DIRECTORY})
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${BUILD_DIRECTORY})
 
 # Configure serialization
 if(UNIX AND NOT APPLE)

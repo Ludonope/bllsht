@@ -3,6 +3,7 @@
 
 #include "bllsht/IBroadcaster.hpp"
 #include "mqtt/client.h"
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -36,9 +37,23 @@ private:
   void _broadcast(std::string const &component, std::string const &type,
                   T const &value, std::string const &unit) {
     std::ostringstream os;
-    os << '[' << component << "] " << type << ": " << value << unit;
-    auto pubmsg = mqtt::make_message("telemetry", os.str());
 
+    // clang-format off
+    os << '{'
+      << "\"component\":" << std::quoted(component) << ','
+      << "\"type\":" << std::quoted(type) << ','
+      << "\"value\":" << value << ','
+      << "\"unit\":";
+    // clang-format on
+
+    if (unit == "") {
+      os << "null";
+    } else {
+      os << std::quoted(unit);
+    }
+    os << '}';
+
+    auto pubmsg = mqtt::make_message("telemetry", os.str());
     m_client.publish(pubmsg);
   }
 

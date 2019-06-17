@@ -31,6 +31,17 @@ set(LIBMODBUSPP libmodbuspp)
 add_library(${LIBMODBUSPP} STATIC ${LIBMODBUSPP_SOURCES})
 target_include_directories(${LIBMODBUSPP} PUBLIC "./lib/modbuspp")
 
+# Get Paho Mqtt library
+find_package(OpenSSL REQUIRED)
+find_library(paho-mqttpp3 NAMES libpaho-mqttpp3.so REQUIRED)
+find_library(paho-mqtt3a NAMES libpaho-mqtt3a.so REQUIRED)
+
+add_library(pahottpp SHARED IMPORTED)
+set_target_properties(pahottpp PROPERTIES IMPORTED_LOCATION ${paho-mqttpp3})
+
+add_library(pahomqtt3a SHARED IMPORTED)
+set_property(TARGET pahomqtt3a PROPERTY IMPORTED_LOCATION ${paho-mqtt3a})
+
 ##
 ## Internal Libraries
 ##
@@ -39,9 +50,15 @@ target_include_directories(${LIBMODBUSPP} PUBLIC "./lib/modbuspp")
 file(GLOB LIBEGSE_SOURCES src/egse/*.cpp)
 set(LIBEGSE libegse)
 add_library(${LIBEGSE} STATIC ${LIBEGSE_SOURCES})
-target_include_directories(${LIBEGSE} PUBLIC "./src" "./lib")
-target_include_directories(${LIBEGSE} PUBLIC "./src/egse")
+target_include_directories(${LIBEGSE} PUBLIC "./src" "./lib" "./src/egse")
 target_link_libraries(${LIBEGSE} PRIVATE ${LIBMODBUSPP})
+
+# Get broadcast library files
+file(GLOB LIBBROADCAST_SOURCES src/broadcast/*.cpp)
+set(LIBBROADCAST libbroadcast)
+add_library(${LIBBROADCAST} STATIC ${LIBBROADCAST_SOURCES})
+target_include_directories(${LIBBROADCAST} PUBLIC "./src" "./lib" "./src/broadcast" ${PAHOMQTTCPP_INCLUDES})
+target_link_libraries(${LIBBROADCAST} PRIVATE pahottpp pahomqtt3a)
 
 ##
 ## Binary
@@ -52,7 +69,7 @@ file(GLOB BLLSHT_SOURCES src/bllsht/*.cpp)
 set(BLLSHT bllsht)
 add_executable(${BLLSHT} ${BLLSHT_SOURCES})
 target_include_directories(${BLLSHT} PUBLIC "./src" "./lib")
-target_link_libraries(${BLLSHT} PUBLIC ${LIBEGSE})
+target_link_libraries(${BLLSHT} PUBLIC ${LIBBROADCAST} ${LIBEGSE})
 
 ##
 ## Installation

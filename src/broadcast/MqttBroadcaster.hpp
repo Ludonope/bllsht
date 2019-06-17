@@ -1,30 +1,17 @@
-#ifndef BLLSHT_BROADCAST_GRPCBROADCASTER_HPP
-#define BLLSHT_BROADCAST_GRPCBROADCASTER_HPP
+#ifndef BLLSHT_BROADCAST_MQTTBROADCASTER_HPP
+#define BLLSHT_BROADCAST_MQTTBROADCASTER_HPP
 
 #include "bllsht/IBroadcaster.hpp"
+#include "mqtt/client.h"
 #include <iostream>
+#include <sstream>
+#include <string>
 
 namespace bllsht::broadcast {
-namespace {
-template <typename T> class SpecializedGRPCBroadcaster {
+class MqttBroadcaster : public IBroadcaster {
 public:
-  virtual ~SpecializedGRPCBroadcaster() {}
-
-  virtual void broadcast(std::string const &component, std::string const &type,
-                         T const &value) {
-    broadcast(component, type, value, "");
-  }
-  virtual void broadcast(std::string const &component, std::string const &type,
-                         T const &value, std::string const &unit) {
-    std::cout << '[' << component << "] " << type << ": " << value << unit
-              << std::endl;
-  }
-};
-} // namespace
-
-class GRPCBroadcaster : public IBroadcaster {
-public:
-  virtual ~GRPCBroadcaster() {}
+  MqttBroadcaster();
+  virtual ~MqttBroadcaster();
 
   virtual void broadcast(std::string const &component, std::string const &type,
                          double const &value) {
@@ -48,10 +35,15 @@ private:
   template <typename T>
   void _broadcast(std::string const &component, std::string const &type,
                   T const &value, std::string const &unit) {
-    std::cout << '[' << component << "] " << type << ": " << value << unit
-              << std::endl;
+    std::ostringstream os;
+    os << '[' << component << "] " << type << ": " << value << unit;
+    auto pubmsg = mqtt::make_message("telemetry", os.str());
+
+    m_client.publish(pubmsg);
   }
+
+  mqtt::async_client m_client;
 };
 } // namespace bllsht::broadcast
 
-#endif // BLLSHT_BROADCAST_GRPCBROADCASTER_HPP
+#endif // BLLSHT_BROADCAST_MQTTBROADCASTER_HPP

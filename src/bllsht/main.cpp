@@ -1,5 +1,5 @@
 #include "egse/EGSE.hpp"
-#include "broadcast/GRPCBroadcaster.hpp"
+#include "broadcast/MqttBroadcaster.hpp"
 #include <chrono>
 #include <iostream>
 #include <thread>
@@ -8,7 +8,7 @@
 void start() {
   auto egse = bllsht::EGSE("sensors.json");
   bool quit = false;
-  auto broadcaster = bllsht::broadcast::GRPCBroadcaster();
+  auto broadcaster = bllsht::broadcast::MqttBroadcaster();
 
   while (!quit) {
     egse.updateData();

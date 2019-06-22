@@ -11,7 +11,11 @@ InputRegisterGroupConfig::InputRegisterGroupConfig(nlohmann::json &json)
     if (el.is_null()) {
       this->sensors.emplace_back(nullptr);
     } else {
-      this->sensors.push_back(std::make_unique<InputRegisterHolderConfig>(el));
+      auto ptr = std::make_unique<InputRegisterHolderConfig>(el);
+      if (ptr->type == "") {
+        ptr->type = this->type;
+      }
+      this->sensors.push_back(std::move(ptr));
     }
   }
 }

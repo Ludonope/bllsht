@@ -1,5 +1,5 @@
-#ifndef SENSOR_INPUTREGISTERGROUP_HPP
-#define SENSOR_INPUTREGISTERGROUP_HPP
+#ifndef BLLSHT_EGSE_INPUTREGISTERGROUP_HPP
+#define BLLSHT_EGSE_INPUTREGISTERGROUP_HPP
 
 #include "bllsht/IReader.hpp"
 #include "modbuspp/modbus.h"
@@ -30,4 +30,4 @@ protected:
 };
 } // namespace bllsht::egse
 
-#endif // SENSOR_INPUTREGISTERGROUP_HPP
+#endif // BLLSHT_EGSE_INPUTREGISTERGROUP_HPP

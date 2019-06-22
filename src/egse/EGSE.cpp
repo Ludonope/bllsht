@@ -2,6 +2,7 @@
 #include "json/json.hpp"
 #include <exception>
 #include <fstream>
+#include <map>
 #include <string>
 
 namespace bllsht {
@@ -42,7 +43,8 @@ void EGSE::loadConfig(std::string const &configFile) {
   }
 }
 
-std::vector<ICalibratedReader<std::uint16_t> const *> EGSE::readSensors() const {
+std::vector<ICalibratedReader<std::uint16_t> const *>
+EGSE::readSensors() const {
   std::vector<ICalibratedReader<std::uint16_t> const *> sensors;
 
   for (auto const &holder : m_inputRegisterHolders) {
@@ -54,7 +56,8 @@ std::vector<ICalibratedReader<std::uint16_t> const *> EGSE::readSensors() const 
 void EGSE::broadcastData(IBroadcaster &broadcaster) const {
   for (auto const &holder : m_inputRegisterHolders) {
     double value = holder.read() * holder.coef() + holder.offset();
-    broadcaster.broadcast("EGSE", holder.type(), value);
+    auto packet = broadcast::make_packet("EGSE", holder.type(), value);
+    broadcaster.broadcast(packet);
   }
 }
 
@@ -62,6 +65,27 @@ void EGSE::updateData() {
   for (auto &group : m_inputRegisterGroups) {
     group.updateData();
   }
+}
+
+void EGSE::executeCommand(nlohmann::json &j) {
+  auto cmd = j["cmd"].get<std::string>();
+  std::map<std::string, void (EGSE::*)(nlohmann::json &)> const commands = {
+      {"actuate", &EGSE::actuate},
+  };
+
+  auto it = commands.find(cmd);
+  if (it == commands.end()) {
+    std::cout << "Unknown command '" << cmd << '\'' << std::endl;
+    return;
+  }
+
+  (this->*it->second)(j["payload"]);
+}
+
+void EGSE::actuate(nlohmann::json &payload) {
+  auto relay = payload["relay"].get<int>();
+  auto state = payload["state"].get<bool>();
+  std::cout << "Setting relay " << relay << " to " << state << std::endl;
 }
 
 } // namespace bllsht

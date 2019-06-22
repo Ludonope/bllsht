@@ -16,13 +16,16 @@ public:
 
   void loadConfig(std::string const &configFile);
 
-  virtual std::string const& name() const { return m_name; }
+  virtual std::string const& id() const { return m_id; }
   virtual std::vector<ICalibratedReader<std::uint16_t> const *> readSensors() const;
   virtual void broadcastData(IBroadcaster &broadcaster) const;
   void updateData();
+  virtual void executeCommand(nlohmann::json &j);
 
 protected:
-  const std::string m_name = "EGSE";
+  void actuate(nlohmann::json &payload);
+
+  const std::string m_id = "egse";
   std::vector<egse::InputRegisterGroup> m_inputRegisterGroups;
   std::vector<egse::InputRegisterHolder> m_inputRegisterHolders;
   modbus m_modbusClient;

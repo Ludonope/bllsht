@@ -6,7 +6,6 @@ project(bllsht)
 
 # Configure C++ version
 set(CMAKE_CXX_STANDARD 17)
-SET(CMAKE_CXX_COMPILER clang++)
 
 # Configure bin directory
 set(OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/bin)

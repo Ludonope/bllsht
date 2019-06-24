@@ -14,9 +14,9 @@ MqttBroadcaster::MqttBroadcaster()
   std::cout << "[MQTT] Connecting mqtt client" << std::endl;
   m_client.set_callback(m_cb);
   mqtt::token_ptr conntok = m_client.connect(connOpts, nullptr, m_cb);
-  std::cout << "[MQTT] Waiting for the connection..." << std::flush;
+  std::cout << "[MQTT] Waiting for the connection...";
   conntok->wait();
-  std::cout << " done" << std::endl;
+  std::cout << "[MQTT] Connected" << std::endl;
 }
 
 MqttBroadcaster::~MqttBroadcaster() {

@@ -4,16 +4,17 @@
 #include <string>
 
 namespace bllsht::egse {
-class CoilRegisterHolder {
+class CoilHolder {
 public:
-  CoilRegisterHolder(bool &valueHolder, std::string const &name);
+  CoilHolder(bool &valueHolder, std::string const &name)
+      : m_valueHolder(valueHolder), m_name(name) {}
 
   bool read() const { return m_valueHolder; }
   std::string const &name() const { return m_name; }
 
 private:
-  std::string m_name;
   bool m_valueHolder;
+  std::string m_name;
 };
 } // namespace bllsht::egse
 

@@ -23,6 +23,12 @@ EGSE::EGSE(std::string const &configFile)
       m_inputRegisterHolders.push_back(holder);
     }
   }
+
+  for (auto const &group : m_coilGroups) {
+    for (auto const &holder : group.holders()) {
+      m_coilHolders.push_back(holder);
+    }
+  }
 }
 
 EGSE::~EGSE() { m_modbusClient.modbus_close(); }
@@ -41,6 +47,9 @@ void EGSE::loadConfig(std::string const &configFile) {
   for (auto &el : j["input-registers"].items()) {
     m_inputRegisterGroups.emplace_back(m_modbusClient, el.value());
   }
+  for (auto &el : j["coils"].items()) {
+    m_coilGroups.emplace_back(m_modbusClient, el.value());
+  }
 }
 
 std::vector<ICalibratedReader<std::uint16_t> const *>
@@ -53,16 +62,24 @@ EGSE::readSensors() const {
 
   return sensors;
 }
+
 void EGSE::broadcastData(IBroadcaster &broadcaster) const {
   for (auto const &holder : m_inputRegisterHolders) {
     double value = holder.read() * holder.coef() + holder.offset();
-    auto packet = broadcast::make_packet("EGSE", holder.type(), value);
+    auto packet = broadcast::make_packet("EGSE", holder.type(), holder.name(), value);
+    broadcaster.broadcast(packet);
+  }
+  for (auto const &holder : m_coilHolders) {
+    auto packet = broadcast::make_packet("EGSE", "relay", holder.name(), holder.read());
     broadcaster.broadcast(packet);
   }
 }
 
 void EGSE::updateData() {
   for (auto &group : m_inputRegisterGroups) {
+    group.updateData();
+  }
+  for (auto &group : m_coilGroups) {
     group.updateData();
   }
 }
@@ -83,9 +100,15 @@ void EGSE::executeCommand(nlohmann::json &j) {
 }
 
 void EGSE::actuate(nlohmann::json &payload) {
-  auto relay = payload["relay"].get<int>();
+  auto relay = payload["relay"].get<std::string>();
   auto state = payload["state"].get<bool>();
   std::cout << "Setting relay " << relay << " to " << state << std::endl;
+
+  for (auto &group : m_coilGroups) {
+    if (group.set(relay, state)) {
+      break;
+    }
+  }
 }
 
 } // namespace bllsht

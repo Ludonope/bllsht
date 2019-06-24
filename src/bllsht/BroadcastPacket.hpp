@@ -6,12 +6,13 @@ namespace bllsht::broadcast {
 typedef nlohmann::json Packet;
 
 template <class T>
-Packet make_packet(std::string const &component, std::string const &type,
+Packet make_packet(std::string const &component, std::string const &type, std::string const &sensor,
                    T const &value, std::string const &unit) {
   Packet p;
 
   p["component"] = component;
   p["type"] = type;
+  p["sensor"] = sensor;
   p["value"] = value;
 
   if (unit == "") {
@@ -23,9 +24,9 @@ Packet make_packet(std::string const &component, std::string const &type,
 }
 
 template <class T>
-Packet make_packet(std::string const &component, std::string const &type,
+Packet make_packet(std::string const &component, std::string const &type, std::string const &sensor,
                    T const &value) {
-  return make_packet(component, type, value, "");
+  return make_packet(component, type, sensor, value, "");
 }
 } // namespace bllsht::broadcast
 

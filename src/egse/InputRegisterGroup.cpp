@@ -22,9 +22,4 @@ void InputRegisterGroup::updateData() {
   m_modbusClient.modbus_read_input_registers(m_address, m_size,
                                              m_values.data());
 }
-
-std::vector<InputRegisterHolder> const &InputRegisterGroup::holders() const {
-  return m_holders;
-}
-
 } // namespace bllsht::egse

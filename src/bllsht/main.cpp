@@ -20,7 +20,7 @@ void start() {
       // std::cout << packet.dump() << std::endl;
       egse.executeCommand(packet);
     }
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
 
   // auto data1 = bllsht::broadcast::make_packet("LOX Tank", "TC", 352.9, "psi");
